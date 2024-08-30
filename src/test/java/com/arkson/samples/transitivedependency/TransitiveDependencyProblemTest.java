@@ -1,6 +1,7 @@
 package com.arkson.samples.transitivedependency;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.AssertionsKt;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -8,7 +9,7 @@ import java.util.*;
 class TransitiveDependencyProblemTest {
 
     @Test
-    void testDependencies() {
+    void mapDependenciesShouldMapAllTheTransitiveDependencies() {
         Map<String, Set<String>> dependencies = new HashMap<>();
         dependencies.put("core", new HashSet<>(List.of("apache-commons-collections", "apache-logging", "web")));
         dependencies.put("apache-commons-collections", new HashSet<>(List.of("commons-lib", "commons-stream")));
@@ -41,4 +42,9 @@ class TransitiveDependencyProblemTest {
         Assertions.assertTrue(commonsCollections.contains("stream-utils"));
     }
 
+    @Test
+    void mapDependenciesShouldThrowsAnErrorWhenDependenciesIsEmpty() {
+        var transitiveDependencyProblem = new TransitiveDependencyProblem();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> transitiveDependencyProblem.mapTransitiveDependencies(Collections.emptyMap()));
+    }
 }
