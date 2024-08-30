@@ -1,7 +1,6 @@
 package com.arkson.samples.transitivedependency;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.AssertionsKt;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -22,12 +21,12 @@ class TransitiveDependencyProblemTest {
         dependencies.put("log4j", Collections.emptySet());
 
         var transitiveDependencyProblem = new TransitiveDependencyProblem();
-        var stringSetMap = transitiveDependencyProblem.mapTransitiveDependencies(dependencies);
+        var result = transitiveDependencyProblem.mapTransitiveDependencies(dependencies);
 
-        Assertions.assertEquals(9, dependencies.size());
+        Assertions.assertEquals(9, result.size());
 
         // core assertions
-        Set<String> core = dependencies.get("core");
+        Set<String> core = result.get("core");
         Assertions.assertTrue(core.contains("apache-commons-collections"));
         Assertions.assertTrue(core.contains("apache-logging"));
         Assertions.assertTrue(core.contains("web"));
@@ -36,7 +35,7 @@ class TransitiveDependencyProblemTest {
         Assertions.assertTrue(core.contains("stream-utils"));
 
         // apache-commons-collections assertions
-        Set<String> commonsCollections = dependencies.get("apache-commons-collections");
+        Set<String> commonsCollections = result.get("apache-commons-collections");
         Assertions.assertTrue(commonsCollections.contains("commons-lib"));
         Assertions.assertTrue(commonsCollections.contains("commons-stream"));
         Assertions.assertTrue(commonsCollections.contains("stream-utils"));
